@@ -37,6 +37,7 @@ class DatePicker extends Component {
 
     this.getDate = this.getDate.bind(this);
     this.getDateStr = this.getDateStr.bind(this);
+    this.getDateDisplay = this.getDateDisplay.bind(this);
     this.datePicked = this.datePicked.bind(this);
     this.onPressDate = this.onPressDate.bind(this);
     this.onPressCancel = this.onPressCancel.bind(this);
@@ -161,6 +162,16 @@ class DatePicker extends Component {
     return Moment(dateInstance).format(format);
   }
 
+  getDateDisplay() {
+    const dateString = this.getDateStr()
+
+    if (typeof this.props.getDateDisplay === 'function') {
+      return this.props.getDateDisplay(dateString);
+    }
+
+    return dateString;
+  }
+
   datePicked() {
     if (typeof this.props.onDateChange === 'function') {
       this.props.onDateChange(this.getDateStr(this.state.date), this.state.date);
@@ -179,7 +190,7 @@ class DatePicker extends Component {
     }
     return (
       <Text allowFontScaling={allowFontScaling} style={[Style.dateText, customStyles.dateText]}>
-        {this.getDateStr()}
+        {this.getDateDisplay()}
       </Text>
     );
   }
